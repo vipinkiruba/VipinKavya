@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vipin & Kavya - Thiruvizha Invitation</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts for Retro Matchbox/Poster look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Alfa+Slab+One&display=swap" rel="stylesheet">
+
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+
+    <button id="audio-btn" class="audio-btn" title="Mute/Unmute Music">🔔</button>
+    <audio id="bg-audio" loop autoplay>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="poster-board">
+        <div class="poster-inner">
+
+            <!-- Hero Section / Signboard -->
+            <section class="screen poster-hero" id="hero">
+                <!-- Buntings (We'll generate more via JS to fill width) -->
+                <div class="bunting-container fade-up" id="buntings"></div>
+
+                <!-- Star Ornaments -->
+                <div class="star-left fade-up">✱</div>
+                <div class="star-right fade-up">✱</div>
+
+                <div class="content title-section">
+                    <h2 class="welcome-text fade-up text-3d-white">WELCOME</h2>
+                    <h3 class="thiruvizha-text fade-up text-3d-yellow">TO THE THIRUVIZHA</h3>
+                    <p class="from-text fade-up">From</p>
+                    <h1 class="names-text fade-up text-3d-pink"><span class="vipin">VIPIN</span> <span
+                            class="amp">&</span> <span class="kavya">KAVYA</span></h1>
+                </div>
+
+                <!-- Doodle Wrapper (Head Pop-Out Custom Design) -->
+                <div class="doodle-container fade-up">
+                    <div class="doodle-circle"></div>
+                    <div class="doodle-crop">
+                        <img src="uploaded-doodle.png" alt="Couple Doodle" id="couple-img" class="blend-effect"
+                            onerror="this.src='https://api.dicebear.com/7.x/micah/svg?seed=VipinKavya&backgroundColor=transparent'; this.classList.add('fallback-doodle');">
+                    </div>
+                </div>
+
+                <div class="date-container fade-up">
+                    <div class="date-box text-3d-black">20 NOV 2026</div>
+                </div>
+
+                <!-- Countdown Timer -->
+                <div class="countdown-container fade-up" id="countdown">
+                    <div class="time-box"><span id="days">00</span>
+                        <p>DAYS</p>
+                    </div>
+                    <div class="time-box"><span id="hours">00</span>
+                        <p>HRS</p>
+                    </div>
+                    <div class="time-box"><span id="minutes">00</span>
+                        <p>MINS</p>
+                    </div>
+                    <div class="time-box"><span id="seconds">00</span>
+                        <p>SECS</p>
+                    </div>
+                </div>
+
+                <div class="scroll-indicator fade-up">
+                    <span>Scroll</span>
+                    <div class="arrow">↓</div>
+                </div>
+            </section>
+
+            <!-- Events Section -->
+            <section class="screen events" id="events">
+                <div class="content">
+                    <h2 class="section-title text-3d-pink fade-up">MUHURTHAM</h2>
+                    <div class="event-card fade-up">
+                        <p class="time">9:45 AM - 10:00 AM</p>
+                    </div>
+
+                    <h2 class="section-title text-3d-pink fade-up" style="margin-top: 50px;">RECEPTION</h2>
+                    <div class="event-card fade-up rotation-alt">
+                        <p class="time">11:30 AM - 2:30 PM</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Venue Section -->
+            <section class="screen venue" id="venue">
+                <div class="content">
+                    <h2 class="section-title text-3d-pink fade-up">VENUE</h2>
+
+                    <div class="map-creative fade-up">
+                        <div class="map-marker groom-house">Vipin's House</div>
+                        <div class="map-marker venue-loc">Thiruvizha Venue</div>
+
+                        <div class="route-container">
+                            <svg viewBox="0 0 320 250" class="route-svg">
+                                <path id="route-path" d="M 70 50 Q 250 50 250 200" fill="none" stroke="#FACC15"
+                                    stroke-width="5" stroke-dasharray="10,10" stroke-linecap="round" />
+                            </svg>
+                            <div class="walking-element" id="tuk-tuk">🛺</div>
+                        </div>
+                    </div>
+
+                    <a href="https://maps.app.goo.gl/d9B7f5DFTxUoeesV6" target="_blank"
+                        class="map-btn fade-up text-3d-black">VIEW ROUTE</a>
+
+                    <p class="thank-you fade-up text-3d-pink">SEE YOU THERE!</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

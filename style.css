@@ -1,0 +1,496 @@
+:root {
+    --bg-blue: #3B5B88;
+    /* Deep matchbox blue */
+    --border-yellow: #FACC15;
+    /* Main yellow border */
+    --text-pink: #FF4D6D;
+    /* Bright pink/red */
+    --text-white: #FFFFFF;
+    --accent-orange: #FF9800;
+    --accent-green: #4CAF50;
+    --accent-light-blue: #0ea5e9;
+
+    --font-poster: 'Bebas Neue', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Main outside is yellow matching the border */
+    background-color: var(--border-yellow);
+    /* Vintage noise filter to make it look printed */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    font-family: var(--font-poster);
+    overflow-x: hidden;
+    color: var(--text-white);
+}
+
+#canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Audio button */
+.audio-btn {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    background: var(--text-pink);
+    border: 3px solid #000;
+    color: #000;
+    font-size: 20px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    z-index: 100;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #000;
+    transition: transform 0.1s, box-shadow 0.1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.audio-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px #000;
+}
+
+/* Central Board (The Signboard) */
+.poster-board {
+    margin: 15px;
+    /* Creates the outer yellow frame */
+    background-color: var(--bg-blue);
+    border: 6px solid #000;
+    /* Thin black outline separating yellow and blue */
+    min-height: calc(100vh - 30px);
+    position: relative;
+    overflow: hidden;
+    /* Extra inner shadow for depth */
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.poster-inner {
+    position: relative;
+    z-index: 2;
+}
+
+/* Buntings Container */
+.bunting-container {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    top: -2px;
+    /* Pull it slightly up to hide gaps */
+    left: 0;
+}
+
+/* Dynamically generated flags */
+.bunting-flag {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 35px solid red;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.bunting-flag.color-0 {
+    border-top-color: var(--text-pink);
+}
+
+.bunting-flag.color-1 {
+    border-top-color: var(--accent-orange);
+}
+
+.bunting-flag.color-2 {
+    border-top-color: var(--border-yellow);
+}
+
+.bunting-flag.color-3 {
+    border-top-color: var(--accent-green);
+}
+
+.bunting-flag.color-4 {
+    border-top-color: var(--accent-light-blue);
+}
+
+/* Decorative Stars */
+.star-left,
+.star-right {
+    position: absolute;
+    top: 50px;
+    font-size: 30px;
+    color: var(--border-yellow);
+    text-shadow: 2px 2px 0 #000;
+}
+
+.star-left {
+    left: 20px;
+}
+
+.star-right {
+    right: 20px;
+}
+
+/* 3D Text Effects for Retro Feel */
+.title-section {
+    padding-top: 70px;
+    /* Space for buntings */
+}
+
+.text-3d-white {
+    color: var(--text-pink);
+    text-shadow: 2px 2px 0px var(--text-white), 4px 4px 0px #000;
+}
+
+.text-3d-yellow {
+    color: var(--text-white);
+    text-shadow: 2px 2px 0px #000, 4px 4px 0px var(--border-yellow);
+}
+
+.text-3d-pink {
+    color: var(--text-white);
+    text-shadow: 2px 2px 0px #000, 5px 5px 0px var(--text-pink);
+}
+
+.text-3d-black {
+    color: var(--text-white);
+    text-shadow: 2px 2px 0px #000, 4px 4px 0px #000;
+}
+
+/* Typography elements */
+.welcome-text {
+    font-size: 4rem;
+    letter-spacing: 3px;
+    margin: 0;
+    line-height: 1;
+}
+
+.thiruvizha-text {
+    font-size: 2.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.from-text {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--border-yellow);
+    background: #000;
+    display: inline-block;
+    padding: 2px 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    transform: rotate(-2deg);
+}
+
+.names-text {
+    font-size: 4.5rem;
+    line-height: 1;
+    margin-top: 10px;
+}
+
+.names-text .amp {
+    font-size: 3rem;
+    color: var(--border-yellow);
+    text-shadow: 2px 2px 0px #000;
+    vertical-align: middle;
+}
+
+/* Doodle Wrapper matching doodle style with head pop-out */
+.doodle-container {
+    position: relative;
+    width: 260px;
+    height: 320px;
+    /* Taller than circle to allow head pop out */
+    margin: 30px auto 10px auto;
+    transform: rotate(2deg);
+    z-index: 5;
+}
+
+.doodle-circle {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 260px;
+    border-radius: 50%;
+    /* Keep background same colour for outer and inner ring surface */
+    background-color: transparent;
+    border: 8px solid var(--border-yellow);
+    box-shadow: 0 0 0 4px #000, 0 10px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.doodle-crop {
+    position: absolute;
+    bottom: 8px;
+    /* sits inside border */
+    left: 8px;
+    right: 8px;
+    height: 360px;
+    border-bottom-left-radius: 122px;
+    /* Curves matching the circle base */
+    border-bottom-right-radius: 122px;
+    overflow: hidden;
+    /* Hides legs/bottom, top is flat so head pops! */
+    z-index: 2;
+}
+
+.doodle-crop img {
+    position: absolute;
+    bottom: -30px;
+    /* Adjust these values to perfectly align your custom image! */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 135%;
+    /* Makes it larger so heads reach the top but body stays in */
+}
+
+/* Back to normal, transparent images don't need multiply */
+.blend-effect {
+    mix-blend-mode: normal;
+}
+
+.fallback-doodle {
+    width: 100% !important;
+    bottom: 0px !important;
+}
+
+/* Ticket / Date Box */
+.date-box {
+    display: inline-block;
+    background-color: var(--text-pink);
+    color: var(--text-white);
+    font-size: 2.5rem;
+    padding: 10px 20px;
+    border: 4px solid #000;
+    transform: rotate(-3deg);
+    margin: 10px 0 20px 0;
+    /* Adjusted margin to fit countdown */
+    box-shadow: 4px 4px 0px #000;
+    letter-spacing: 2px;
+}
+
+/* Countdown Timer */
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.time-box {
+    background: var(--text-white);
+    border: 3px solid #000;
+    width: 65px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 3px 3px 0px var(--accent-light-blue);
+    transform: rotate(1deg);
+}
+
+.time-box:nth-child(even) {
+    transform: rotate(-1.5deg);
+    box-shadow: 3px 3px 0px var(--accent-orange);
+}
+
+.time-box span {
+    font-size: 2.2rem;
+    color: var(--bg-blue);
+    line-height: 1;
+}
+
+.time-box p {
+    font-size: 0.9rem;
+    color: #000;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    margin-top: 3px;
+    letter-spacing: 1px;
+}
+
+/* Screens */
+.screen {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.section-title {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+/* Event Cards to look like Retro Tickets */
+.event-card {
+    background: var(--text-white);
+    border: 4px solid #000;
+    padding: 15px 30px;
+    color: #000;
+    transform: rotate(1.5deg);
+    box-shadow: 6px 6px 0px var(--accent-light-blue);
+    width: 90%;
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+.rotation-alt {
+    transform: rotate(-1.5deg);
+    box-shadow: -6px 6px 0px var(--border-yellow);
+}
+
+.event-card .time {
+    font-size: 2.2rem;
+    margin: 0;
+}
+
+/* Map specific styles */
+.map-creative {
+    width: 100%;
+    max-width: 320px;
+    height: 250px;
+    margin: 20px auto;
+    position: relative;
+    background: var(--text-white);
+    /* Subtle dot grid for map background */
+    background-image: radial-gradient(#000 1px, transparent 1px);
+    background-size: 15px 15px;
+    border: 4px solid #000;
+    box-shadow: 6px 6px 0px var(--accent-green);
+    overflow: hidden;
+}
+
+.map-marker {
+    position: absolute;
+    background: var(--border-yellow);
+    border: 3px solid #000;
+    padding: 5px 12px;
+    font-size: 1.4rem;
+    color: #000;
+    z-index: 3;
+    box-shadow: 3px 3px 0px #000;
+    transform: rotate(-2deg);
+}
+
+.groom-house {
+    top: 20px;
+    left: 15px;
+}
+
+.venue-loc {
+    bottom: 20px;
+    right: 15px;
+    background: var(--text-pink);
+    color: #fff;
+    transform: rotate(2deg);
+}
+
+.walking-element {
+    position: absolute;
+    font-size: 3.5rem;
+    z-index: 4;
+    width: 60px;
+    height: 60px;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.5));
+}
+
+.map-btn {
+    display: inline-block;
+    background-color: var(--accent-orange);
+    color: var(--text-white);
+    font-size: 2.2rem;
+    padding: 15px 30px;
+    text-decoration: none;
+    border: 4px solid #000;
+    box-shadow: 5px 5px 0px #000;
+    margin-top: 30px;
+    transition: transform 0.1s, box-shadow 0.1s;
+    letter-spacing: 1px;
+}
+
+.map-btn:active {
+    transform: translate(5px, 5px);
+    box-shadow: 0px 0px 0px #000;
+}
+
+.thank-you {
+    margin-top: 60px;
+    font-size: 4rem;
+}
+
+/* Utility Animations */
+.fade-up {
+    visibility: hidden;
+}
+
+.scroll-indicator {
+    margin-top: 40px;
+    font-size: 1.5rem;
+    color: var(--border-yellow);
+}
+
+.scroll-indicator .arrow {
+    font-size: 2.5rem;
+    margin-top: -5px;
+    animation: bounce 0.8s infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(12px);
+    }
+}
+
+/* Mobile fine-tuning */
+@media screen and (max-width: 400px) {
+    .welcome-text {
+        font-size: 3.2rem;
+    }
+
+    .thiruvizha-text {
+        font-size: 2.2rem;
+    }
+
+    .names-text {
+        font-size: 3.8rem;
+    }
+
+    .doodle-wrapper {
+        width: 220px;
+        height: 220px;
+    }
+
+    .date-box {
+        font-size: 2rem;
+    }
+}
